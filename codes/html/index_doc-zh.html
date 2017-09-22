@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>handlebars study</title>
+    <script type="text/javascript" src="../public/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../public/js/handlebars-v4.0.10.js"></script>
+    <script id="helper" type="text/x-handlebars-template">
+        {{{link aObj}}}
+    </script>
+    <script>
+        $(function(){
+            var helper_source=$('#helper').html();
+            var helper_tpl=Handlebars.compile(helper_source);
+            var helper_context={
+                aObj:{
+                    url:'http://www.baidu.com',
+                    text:'百度首页',
+                    link:'click link'
+                }
+            };
+            //define link helper
+            Handlebars.registerHelper('link', function(object) {
+                return new Handlebars.SafeString(
+                    "<a href='" + object.url + "'>" + object.text + "</a>"
+                );
+            });
+
+            $('.helper').html(helper_tpl(helper_context));
+
+
+        });
+    </script>
+</head>
+<body>
+<div class="helper"></div>
+</body>
+</html>

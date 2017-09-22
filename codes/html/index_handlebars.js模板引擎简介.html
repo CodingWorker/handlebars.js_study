@@ -1,0 +1,126 @@
+<html>
+<head><title>
+handlerbars study
+</title>
+    <script type="text/javascript" src="../public/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="../public/js/handlebars-v4.0.10.js"></script>
+    <script id="entry-template" type="text/x-handlebars-template"> {{template.content}}</script>
+    <script id="tpl" type="text/x-handlebars-template">
+        <div class="demo">
+            <h1>{{title}}</h1>
+            <p>{{content.title}}</p>
+        </div>
+    </script>
+    <script id="blocks" type="text/x-handlebars-template">
+        <ul>
+            {{#programme}}
+            <li>{{language}}</li>
+            {{/programme}}
+        </ul>
+    </script>
+    <script id="each" type="text/x-handlebars-template">
+        <ol>
+            {{#each value}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ol>
+    </script>
+    <script id="if" type="x-handlebars-template">
+    {{#if exist}}
+    <ul>
+        {{#each list}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    {{else}}
+        <p>{{error}}</p>
+        {{/if}}
+</script>
+    <script id="with" type="text/x-handlebars-template">
+        <p>{{id}}</p>
+        {{#with person}}
+        <span>name:{{name}}</span>
+        <span>age:{{age}}</span>
+        <p>access parent level property</p>
+        <p>{{../company.name}}</p>
+        {{/with}}
+        <p>{{! this is comment}}</p>
+    </script>
+    <script>
+        $(function(){
+            var source1 = $("#tpl").html();
+            var template1 = Handlebars.compile(source1);//编译模板
+            var context1={
+                title:'tpl-title',
+                content:{
+                    title:'tpl-content-title'
+                }
+            };
+
+            $('.tpl').html(template1(context1));
+
+            var source2 = $("#entry-template").html();
+            var template2 = Handlebars.compile(source2);//编译模板
+            var context2={
+                title:'tpl-title',
+                template:{
+                    content:'entry-template-content'
+                }
+            };
+
+            $('.entry').html(template2(context2));
+
+            var blocks_source=$('#blocks').html();
+            var blocks_tpl=Handlebars.compile(blocks_source);
+            var blocks_context={
+                programme: [
+                    {language: "JavaScript"},
+                    {language: "HTML"},
+                    {language: "CSS"}
+                ]
+
+            };
+            $('.blocks').html(blocks_tpl(blocks_context));
+
+            var each_source=$('#each').html();
+            var each_tpl=Handlebars.compile(each_source);
+            var each_context={
+                value:['Daniel','jack','tom','lucy','lili']
+            };
+            $('.each').html(each_tpl(each_context));
+
+            var if_source=$('#if').html();
+            var if_tpl=Handlebars.compile(if_source);
+            var if_context={
+                exisst:'exist',
+                list:['a','b','c'],
+                error:'no exist'
+            };
+            $('.if').html(if_tpl(if_context));
+
+            var with_source=$('#with').html();
+            var with_tpl=Handlebars.compile(with_source);
+            var with_context={
+                id:1,
+                person:{
+                    name:'Daniel',
+                    age:12
+                },
+                company:{
+                    name:'my-company'
+                }
+            };
+
+            $('.with').html(with_tpl(with_context));
+        });
+    </script>
+</head>
+<body>
+<div class="tpl"></div>
+<div class="entry"></div>
+<div class="blocks"></div>
+<div class="each"></div>
+<div class="if"></div>
+<div class="with"></div>
+</body>
+</html>
